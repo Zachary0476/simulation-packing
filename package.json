@@ -1,0 +1,19 @@
+{
+  "private": false,
+  "name": "simulation-packaging",
+  "keywords": [
+    "simulation-packaging",
+    "simulation",
+    "packaging",
+    "pack"
+  ],
+  "version": "0.1.1",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^13.5.2"
+  },
+  "bin": {
+    "sp-cli": "bin/index.js"
+  }
+}
