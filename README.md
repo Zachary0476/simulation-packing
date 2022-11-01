@@ -3,7 +3,7 @@ instructions:
 ### Start program
 
 ```
-Execute command: sp-cli
+Execute command: spcli
 ```
 
 ### Process description and precautions
