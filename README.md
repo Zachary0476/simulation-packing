@@ -25,7 +25,7 @@ Execute command: spcli
 ### 启动程序
 
 ```
-执行命令：sp-cli
+执行命令：spcli
 ```
 
 ### 流程说明及注意事项
