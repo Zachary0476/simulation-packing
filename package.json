@@ -7,13 +7,17 @@
     "packaging",
     "pack"
   ],
-  "version": "0.1.1",
+  "version": "1.0.0",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zachary0476/simulation-packing"
+  },
   "license": "MIT",
   "dependencies": {
     "puppeteer": "^13.5.2"
   },
   "bin": {
-    "sp-cli": "bin/index.js"
+    "spcli": "bin/index.js"
   }
 }

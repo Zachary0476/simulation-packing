@@ -7,20 +7,22 @@ const { BROWSER_CONFIG } = require("../config");
 const { getTargetOrder } = require("../utils");
 
 let timer = null,
-  cookies = null,
+  cookies = null, // 内部SSO系统 cookies
   UIIDStringEntered = null, //需要打包的uiid str
   UIIDS = null, // uiid数组
   current = null, // 当前打包进程中的uiid
   targetUrl = "",
   branchUrl = "",
   SSO_URL = "",
-  customs = null;
+  CONFIRM_URL = "",
+  customs = null; // 内部域名
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+// 创建浏览器实例
 const createBoundle = (cookie, uiid) => {
   return new Promise(async (resolve) => {
     try {
@@ -68,8 +70,14 @@ const createBoundle = (cookie, uiid) => {
             },
             target
           );
+          await page.$$eval(".rr-block", (eles) => {
+            eles[0].style.display = "none";
+          });
+          await page.waitForTimeout(5 * 1000);
           // -------确认上述操作 开始真正的打包-------
-          // await page.click(".ant-drawer-footer .ant-btn.ant-btn-primary");
+          await page.click(".ant-drawer-footer .ant-btn.ant-btn-primary");
+
+          await page.waitForTimeout(10 * 1000);
           clearTimeout(timer);
           await browser.close();
           resolve("ok");
@@ -81,10 +89,13 @@ const createBoundle = (cookie, uiid) => {
   });
 };
 
+// 读取进程
 const askQuestions = (q) =>
   new Promise((resolve) => rl.question(q, (info) => resolve(info)));
 
+// 创建打包进程
 exports.startPipeLine = async () => {
+  // ================= 从进程交互中获取目标数据 S =================
   customs = readFileSync(path.join(__dirname, `../etc/custom.txt`), {
     encoding: "utf8",
     flag: "as+",
@@ -95,6 +106,7 @@ exports.startPipeLine = async () => {
     flag: "as+",
   });
 
+  // 解决首次启动工具 无配置文件问题
   if (!customs) {
     const handlePath = await askQuestions("请拖拽custom配置文件到此:");
     customs = readFileSync(
@@ -104,13 +116,14 @@ exports.startPipeLine = async () => {
         flag: "as+",
       }
     );
-
     appendFileSync(path.join(__dirname, `../etc/custom.txt`), customs);
   }
+
   customs = customs.split("\n");
   targetUrl = customs[0];
   branchUrl = customs[1];
   SSO_URL = customs[2];
+  CONFIRM_URL = customs[3];
 
   while (!cookies) {
     cookies = await askQuestions("请提供cookie:");
@@ -122,6 +135,9 @@ exports.startPipeLine = async () => {
     );
   rl.close();
   UIIDS = UIIDStringEntered.split("/");
+  // ================= 从进程交互中获取目标数据 E =================
+
+  // ================= 创建打包进程 S =================
   while (0 in UIIDS) {
     current = UIIDS.splice(0, 1)[0].trim();
     console.log("\x1B[32m Start simulation packaging... \x1B[0m");
@@ -129,6 +145,9 @@ exports.startPipeLine = async () => {
     if (result === "error")
       appendFileSync(path.join(__dirname, `../etc/log.txt`), `${current},`);
   }
+  // ================= 创建打包进程 E =================
+
+  // ================= 捕获日志并输出 S =================
   let logs = readFileSync(path.join(__dirname, `../etc/log.txt`), {
     encoding: "utf8",
     flag: "as+",
