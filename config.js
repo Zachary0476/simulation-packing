@@ -1,6 +1,6 @@
 // puppeteer 浏览器配置
 exports.BROWSER_CONFIG = {
-  headless: false,
+  headless: true,
   slowMo: 10,
   defaultViewport: null,
 };
