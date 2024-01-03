@@ -1,0 +1,23 @@
+{
+  "private": false,
+  "name": "simulation-packaging",
+  "keywords": [
+    "simulation-packaging",
+    "simulation",
+    "packaging",
+    "pack"
+  ],
+  "version": "2.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "puppeteer": "^13.5.2"
+  },
+  "bin": {
+    "sp": "bin/index.js"
+  }
+}
