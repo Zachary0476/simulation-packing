@@ -11,7 +11,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Zachary0476/simulation-packing.git"
   },
   "dependencies": {
     "commander": "^11.1.0",
