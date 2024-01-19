@@ -40,3 +40,8 @@ Execute command: spcli
 4.打包完成后终端会有日志输出，全部跑通以后，终端会提示‘Amazing...’，如果存在打包失败的uiid，可以重新输入失败的uiid重新打包。。。
 
 ```
+
+### Timing Diagram
+```
+![Timing Diagram](https://github.com/Zachary0476/simulation-packing/blob/2.0.0/static/timing_diagram.png)
+```
